@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -67,6 +68,12 @@ class Program
             {
                 Console.WriteLine(url);
             }
+        }
+
+        Dictionary<string, string> windowText = GetAllAvailableWindowText(handle);
+        foreach (KeyValuePair<string, string> entry in windowText)
+        {
+            Console.WriteLine($"{entry.Key}: {entry.Value}");
         }
 
         Console.WriteLine();
@@ -151,6 +158,137 @@ class Program
             return val.Current.Value; // This is the URL
         }
         return "URL not found";
+    }
+
+    public static Dictionary<string, string> GetAllAvailableWindowText(IntPtr aWindowHandle)
+    {
+        Dictionary<string, string> result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        AutomationElement rootElement;
+        try
+        {
+            rootElement = AutomationElement.FromHandle(aWindowHandle);
+        }
+        catch
+        {
+            return result;
+        }
+
+        if (rootElement == null)
+        {
+            return result;
+        }
+
+        AddElementTextToDictionary(rootElement, result);
+
+        AutomationElementCollection descendants;
+        try
+        {
+            descendants = rootElement.FindAll(TreeScope.Descendants, Condition.TrueCondition);
+        }
+        catch
+        {
+            return result;
+        }
+
+        foreach (AutomationElement element in descendants)
+        {
+            AddElementTextToDictionary(element, result);
+        }
+
+        return result;
+    }
+
+    private static void AddElementTextToDictionary(AutomationElement aElement, Dictionary<string, string> aDictionary)
+    {
+        try
+        {
+            string name = GetElementName(aElement);
+            string? value = GetElementValue(aElement);
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = $"Element_{aDictionary.Count + 1}";
+            }
+
+            AddOrUpdateUniqueKey(aDictionary, name, value);
+        }
+        catch
+        {
+            // Some elements can disappear while traversing UI Automation tree.
+        }
+    }
+
+    private static string GetElementName(AutomationElement aElement)
+    {
+        string name = (aElement.Current.Name ?? string.Empty).Trim();
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            return name;
+        }
+
+        string automationId = (aElement.Current.AutomationId ?? string.Empty).Trim();
+        if (!string.IsNullOrWhiteSpace(automationId))
+        {
+            return automationId;
+        }
+
+        return aElement.Current.ControlType.ProgrammaticName;
+    }
+
+    private static string? GetElementValue(AutomationElement aElement)
+    {
+        if (aElement.TryGetCurrentPattern(ValuePattern.Pattern, out object valuePatternObj))
+        {
+            ValuePattern valuePattern = (ValuePattern)valuePatternObj;
+            string currentValue = (valuePattern.Current.Value ?? string.Empty).Trim();
+            if (!string.IsNullOrWhiteSpace(currentValue))
+            {
+                return currentValue;
+            }
+        }
+
+        if (aElement.TryGetCurrentPattern(TextPattern.Pattern, out object textPatternObj))
+        {
+            TextPattern textPattern = (TextPattern)textPatternObj;
+            string currentText = (textPattern.DocumentRange.GetText(-1) ?? string.Empty).Trim();
+            if (!string.IsNullOrWhiteSpace(currentText))
+            {
+                return currentText;
+            }
+        }
+
+        string fallback = (aElement.Current.Name ?? string.Empty).Trim();
+        return string.IsNullOrWhiteSpace(fallback) ? null : fallback;
+    }
+
+    private static void AddOrUpdateUniqueKey(Dictionary<string, string> aDictionary, string aName, string aValue)
+    {
+        if (!aDictionary.TryGetValue(aName, out string? existingValue))
+        {
+            aDictionary[aName] = aValue;
+            return;
+        }
+
+        if (string.Equals(existingValue, aValue, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        int suffix = 2;
+        string candidateKey = $"{aName}_{suffix}";
+        while (aDictionary.ContainsKey(candidateKey))
+        {
+            suffix++;
+            candidateKey = $"{aName}_{suffix}";
+        }
+
+        aDictionary[candidateKey] = aValue;
     }
 
 }
