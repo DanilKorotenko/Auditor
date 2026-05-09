@@ -3,3 +3,4 @@ auditActiveWindow/bin/
 auditActiveWindow/.vs/
 .vs/
 activityWatcher/obj/
+common/obj/
