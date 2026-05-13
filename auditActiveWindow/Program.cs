@@ -291,4 +291,25 @@ class Program
         aDictionary[candidateKey] = aValue;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    struct LASTINPUTINFO
+    {
+        public uint cbSize;
+        public uint dwTime;
+    }
+
+    [DllImport("user32.dll")]
+    static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+
+    public static uint GetIdleTime()
+    {
+        LASTINPUTINFO lastInput = new LASTINPUTINFO();
+        lastInput.cbSize = (uint)Marshal.SizeOf(lastInput);
+        GetLastInputInfo(ref lastInput);
+
+        // Environment.TickCount is the time since the system started
+        return (uint)Environment.TickCount - lastInput.dwTime; // Returns idle time in milliseconds
+    }
+
+
 }

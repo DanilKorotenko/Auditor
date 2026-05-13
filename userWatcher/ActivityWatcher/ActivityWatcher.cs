@@ -22,9 +22,9 @@ public class ActivityWatcher
 
     }
 
-    public Activity GetCurrentActivity()
+    public Activity.Activity GetCurrentActivity()
     {
-        Activity result = new Activity();
+        Activity.Activity result = new Activity.Activity();
 
         return result;
     }
