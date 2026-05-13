@@ -16,6 +16,7 @@ public class ActivityWatcher
     public ActivityWatcher(ILogger<ActivityWatcher> aLogger)
     {
         logger = aLogger;
+        UpdateInterval = DEFAULT_UPDATE_INTERVAL;
     }
 
     private int UpdateInterval { get; set; }

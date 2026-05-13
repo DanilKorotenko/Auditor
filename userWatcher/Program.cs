@@ -1,13 +1,37 @@
 ﻿
 
+using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using userWatcher.ActivityWatcher;
+
 class Program
 {
 
-    public static void Main()
+    public static async Task Main()
     {
-        Console.WriteLine("Hello, Activity!");
+        using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
 
-        var cts = new CancellationTokenSource();
+        ILogger logger = factory.CreateLogger<Program>();
 
+        logger.LogInformation("App started at {Time}", DateTime.Now);
+
+        CancellationTokenSource cts = new CancellationTokenSource();
+
+        PosixSignalRegistration.Create(
+            PosixSignal.SIGTERM,
+            (_) => 
+            {
+                cts.Cancel();
+                //Environment.Exit(0); 
+            });
+
+        ILogger<ActivityWatcher> activityWatcherLogger = factory.CreateLogger<ActivityWatcher>();
+
+        ActivityWatcher watcher = new ActivityWatcher(activityWatcherLogger);
+
+        await watcher.RunUpdateLoop(cts.Token);
+
+        logger.LogInformation("UserWatcher stop");
     }
 }
