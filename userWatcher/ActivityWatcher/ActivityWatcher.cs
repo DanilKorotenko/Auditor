@@ -9,7 +9,7 @@ namespace userWatcher.ActivityWatcher;
 
 public class ActivityWatcher
 {
-    private readonly int DEFAULT_UPDATE_INTERVAL = 5;
+    private readonly int DEFAULT_UPDATE_INTERVAL = 1;
 
     private readonly ILogger<ActivityWatcher> logger;
 
@@ -34,8 +34,11 @@ public class ActivityWatcher
                 string error = $"Error in update loop: {ex.Message}";
                 logger.LogError(error);
             }
-
-            await Task.Delay(TimeSpan.FromSeconds(UpdateInterval), cancellationToken);
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(UpdateInterval), cancellationToken);
+            }
+            catch { }
         }
         Shutdown();
     }

@@ -20,10 +20,26 @@ class Program
 
         PosixSignalRegistration.Create(
             PosixSignal.SIGTERM,
-            (_) => 
+            (context) => 
             {
+                context.Cancel = true;
                 cts.Cancel();
-                //Environment.Exit(0); 
+            });
+
+        PosixSignalRegistration.Create(
+            PosixSignal.SIGHUP,
+            (context) =>
+            {
+                context.Cancel = true;
+                cts.Cancel();
+            });
+
+        PosixSignalRegistration.Create(
+            PosixSignal.SIGINT,
+            (context) =>
+            {
+                context.Cancel = true;
+                cts.Cancel();
             });
 
         ILogger<ActivityWatcher> activityWatcherLogger = factory.CreateLogger<ActivityWatcher>();
