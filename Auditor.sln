@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "activityWatcher", "activity
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "common", "common\common.csproj", "{E15E491A-E872-91D8-DF7A-CA59C792F064}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "auditorAgent", "auditorAgent\auditorAgent.csproj", "{F5E3AF51-279C-4214-E292-C6615281B130}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "userWatcher", "userWatcher\userWatcher.csproj", "{E91E4FC5-05AD-0F5A-B21E-6DDFCBB50D6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +36,14 @@ Global
 		{E15E491A-E872-91D8-DF7A-CA59C792F064}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E15E491A-E872-91D8-DF7A-CA59C792F064}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E15E491A-E872-91D8-DF7A-CA59C792F064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5E3AF51-279C-4214-E292-C6615281B130}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5E3AF51-279C-4214-E292-C6615281B130}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5E3AF51-279C-4214-E292-C6615281B130}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5E3AF51-279C-4214-E292-C6615281B130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E91E4FC5-05AD-0F5A-B21E-6DDFCBB50D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E91E4FC5-05AD-0F5A-B21E-6DDFCBB50D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E91E4FC5-05AD-0F5A-B21E-6DDFCBB50D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E91E4FC5-05AD-0F5A-B21E-6DDFCBB50D6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
