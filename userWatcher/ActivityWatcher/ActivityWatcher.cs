@@ -8,4 +8,24 @@ namespace userWatcher.ActivityWatcher;
 
 public class ActivityWatcher
 {
+    private static ActivityWatcher? _instance;
+    public static ActivityWatcher? SharedController()
+    {
+        if (_instance == null)
+        {
+            _instance = new ActivityWatcher();
+        }
+        return _instance;
+    }
+    private ActivityWatcher()
+    {
+
+    }
+
+    public Activity GetCurrentActivity()
+    {
+        Activity result = new Activity();
+
+        return result;
+    }
 }
