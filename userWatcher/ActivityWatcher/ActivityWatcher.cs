@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,40 @@ namespace userWatcher.ActivityWatcher;
 
 public class ActivityWatcher
 {
-    private static ActivityWatcher? _instance;
-    public static ActivityWatcher? SharedController()
-    {
-        if (_instance == null)
-        {
-            _instance = new ActivityWatcher();
-        }
-        return _instance;
-    }
-    private ActivityWatcher()
-    {
+    private readonly int DEFAULT_UPDATE_INTERVAL = 5;
 
+    private readonly ILogger<ActivityWatcher> logger;
+
+    public ActivityWatcher(ILogger<ActivityWatcher> aLogger)
+    {
+        logger = aLogger;
+    }
+
+    private int UpdateInterval { get; set; }
+
+    public async Task RunUpdateLoop(CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                Update();
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error in update loop: {ex.Message}";
+                logger.LogError(error);
+            }
+
+            await Task.Delay(TimeSpan.FromSeconds(UpdateInterval), cancellationToken);
+        }
+        Shutdown();
+    }
+
+    void Update()
+    {
+        Activity.Activity activity = GetCurrentActivity();
+        logger.LogInformation($"{activity}");
     }
 
     public Activity.Activity GetCurrentActivity()
@@ -27,5 +50,10 @@ public class ActivityWatcher
         Activity.Activity result = new Activity.Activity();
 
         return result;
+    }
+
+    private void Shutdown()
+    {
+        logger.LogInformation($"Shutdown");
     }
 }
