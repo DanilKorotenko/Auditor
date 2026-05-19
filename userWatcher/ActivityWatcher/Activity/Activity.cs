@@ -23,9 +23,8 @@ public class Activity
         Timestamp = DateTime.Now;
         ProcessName = string.Empty;
         ProcessExePath = string.Empty;
-        UserName = string.Empty;
     }
-    public ActivityType Type 
+    public virtual ActivityType Type
     { 
         get 
         {
@@ -35,10 +34,18 @@ public class Activity
     public DateTime Timestamp { get; }
     public string ProcessName { get; }
     public string ProcessExePath { get; }
-    public string UserName { get; }
+    public string UserName 
+    { 
+        get
+        {
+            string name = Environment.UserName;
+            string domain = Environment.UserDomainName;
+            return $"{domain}\\{name}";
+        }
+    }
 
     public override string ToString()
     {
-        return $"{Timestamp} {UserName} {ProcessName} ";
+        return $"{Timestamp} {Type} {UserName} {ProcessName} ";
     }
 }

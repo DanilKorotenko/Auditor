@@ -4,6 +4,7 @@ auditActiveWindow/.vs/
 .vs/
 activityWatcher/obj/
 common/obj/
+common/bin/
 auditorAgent/obj/
 userWatcher/obj/
 userWatcher/bin/

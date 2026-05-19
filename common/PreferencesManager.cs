@@ -108,47 +108,56 @@ public class PreferencesManager
         }
     }
 
+    private static uint afkTimeout = 0;
     public static uint AfkTimeout
     {
         get
         {
-            try
+            if (afkTimeout == 0)
             {
-                RegistryKey? key = Registry.LocalMachine.OpenSubKey(REGISTRY_KEY);
-                if (key != null)
+                afkTimeout = DEFAULT_AFK_TIMEOUT;
+                try
                 {
-                    uint? result = (uint?)key.GetValue(AFK_TIMEOUT_KEY);
-                    if (result != null)
+                    RegistryKey? key = Registry.LocalMachine.OpenSubKey(REGISTRY_KEY);
+                    if (key != null)
                     {
-                        return (uint)result;
+                        uint? result = (uint?)key.GetValue(AFK_TIMEOUT_KEY);
+                        if (result != null)
+                        {
+                            afkTimeout = (uint)result;
+                        }
+                        key.Close();
                     }
-                    key.Close();
                 }
+                catch { }
             }
-            catch { }
-            return DEFAULT_AFK_TIMEOUT;
+            return afkTimeout;
         }
         set
         {
-            try
+            if (value != afkTimeout)
             {
-                RegistryKey? key = Registry.LocalMachine.OpenSubKey(REGISTRY_KEY);
-                if (key != null)
+                afkTimeout = 0;
+                try
                 {
-                    key.SetValue(FINGERPRINT_KEY, value);
-                    key.Close();
-                }
-                else
-                {
-                    key = Registry.LocalMachine.CreateSubKey(REGISTRY_KEY);
+                    RegistryKey? key = Registry.LocalMachine.OpenSubKey(REGISTRY_KEY);
                     if (key != null)
                     {
                         key.SetValue(FINGERPRINT_KEY, value);
                         key.Close();
                     }
+                    else
+                    {
+                        key = Registry.LocalMachine.CreateSubKey(REGISTRY_KEY);
+                        if (key != null)
+                        {
+                            key.SetValue(FINGERPRINT_KEY, value);
+                            key.Close();
+                        }
+                    }
                 }
+                catch { }
             }
-            catch { }
         }
     }
 

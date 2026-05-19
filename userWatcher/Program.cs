@@ -2,8 +2,9 @@
 
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using userWatcher.ActivityWatcher;
+
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 
 class Program
 {

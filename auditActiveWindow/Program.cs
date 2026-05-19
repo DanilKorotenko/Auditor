@@ -8,7 +8,7 @@ using System.Management;
 
 class Program
 {
-    // 1. Import the necessary Windows API functions
+
     [DllImport("user32.dll")]
     private static extern IntPtr GetForegroundWindow();
 
