@@ -13,19 +13,6 @@ namespace userWatcher.ActivityWatcher;
 
 public partial class ActivityWatcher
 {
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetForegroundWindow();
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
-    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-    private static extern int GetWindowTextLength(IntPtr hWnd);
-
-    [DllImport("user32.dll")]
-    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
-
     private readonly int DEFAULT_UPDATE_INTERVAL = 1;
 
     private readonly ILogger<ActivityWatcher> logger;
@@ -62,7 +49,6 @@ public partial class ActivityWatcher
 
     void Update()
     {
-
         Activity.Activity activity = GetCurrentActivity();
         logger.LogInformation($"{activity}");
     }
@@ -73,6 +59,7 @@ public partial class ActivityWatcher
         {
             return new Activity.AFKActivity();
         }
+
         Activity.Activity result = new Activity.Activity();
 
         return result;

@@ -23,6 +23,11 @@ public class Activity
         Timestamp = DateTime.Now;
         ProcessName = string.Empty;
         ProcessExePath = string.Empty;
+
+        string name = Environment.UserName;
+        string domain = Environment.UserDomainName;
+        UserName = $"{domain}\\{name}";
+        Artifacts = [];
     }
     public virtual ActivityType Type
     { 
@@ -34,15 +39,9 @@ public class Activity
     public DateTime Timestamp { get; }
     public string ProcessName { get; }
     public string ProcessExePath { get; }
-    public string UserName 
-    { 
-        get
-        {
-            string name = Environment.UserName;
-            string domain = Environment.UserDomainName;
-            return $"{domain}\\{name}";
-        }
-    }
+    public string UserName { get; }
+
+    public string[] Artifacts { get; }
 
     public override string ToString()
     {
