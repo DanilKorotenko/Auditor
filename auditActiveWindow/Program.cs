@@ -40,9 +40,7 @@ class Program
 
     public static void Update()
     {
-        // Get the handle (IntPtr) of the foreground window
         IntPtr handle = GetForegroundWindow();
-
         if (handle == IntPtr.Zero)
         {
             return;
@@ -81,7 +79,6 @@ class Program
 
     public static string GetWindowTitle(IntPtr aWindowHandle)
     {
-
         // Get the length of the title
         int length = GetWindowTextLength(aWindowHandle);
         if (length == 0) 
@@ -310,6 +307,4 @@ class Program
         // Environment.TickCount is the time since the system started
         return (uint)Environment.TickCount - lastInput.dwTime; // Returns idle time in milliseconds
     }
-
-
 }

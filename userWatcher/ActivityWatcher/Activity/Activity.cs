@@ -37,8 +37,8 @@ public class Activity
         } 
     }
     public DateTime Timestamp { get; }
-    public string ProcessName { get; }
-    public string ProcessExePath { get; }
+    public string ProcessName { get; set; }
+    public string ProcessExePath { get; set; }
     public string UserName { get; }
 
     public string[] Artifacts { get; }

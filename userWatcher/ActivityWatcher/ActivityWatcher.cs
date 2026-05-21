@@ -60,7 +60,16 @@ public partial class ActivityWatcher
             return new Activity.AFKActivity();
         }
 
+        ProcessInfo? processInfo = ProcessInfo.GetCurrentProcessInfo();
+
+        if (processInfo == null)
+        {
+            return new Activity.Activity();
+        }
+
         Activity.Activity result = new Activity.Activity();
+
+        result.ProcessName = processInfo.ProcessName;
 
         return result;
     }
