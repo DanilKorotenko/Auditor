@@ -71,14 +71,13 @@ public partial class ActivityWatcher
                 break;
             }
 
-
             if (processInfo.IsBrowser)
             {
                 result = new Activity.BrowserActivity();
             }
 
+            result = new Activity.AppActivity();
             result.SetProcessInfo(processInfo);
-
         }
         while (false);
 

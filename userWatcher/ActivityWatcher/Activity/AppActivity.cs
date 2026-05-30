@@ -1,31 +1,31 @@
 ﻿namespace userWatcher.ActivityWatcher.Activity;
 
-public class BrowserActivity : Activity
+public class AppActivity : Activity
 {
 
-    public BrowserActivity() : base()
+    public AppActivity() : base()
     {
-        CurrentURL = string.Empty;
+        WindowTitle = string.Empty;
     }
     public override ActivityType Type 
     { 
         get 
         {
-            return ActivityType.Browser;
+            return ActivityType.Application;
         } 
     }
 
-    public string CurrentURL { get; set; }
+    public string WindowTitle { get; set; }
 
     public override string ToString()
     {
-        return $"{Timestamp} {Type} {UserName} {ProcessName} {CurrentURL}";
+        return $"{Timestamp} {Type} {UserName} {ProcessName} {WindowTitle}";
     }
 
     public override void SetProcessInfo(ProcessInfo aProcessInfo)
     {
         base.SetProcessInfo(aProcessInfo);
 
-        CurrentURL = aProcessInfo.GetCurrentURL();
+        WindowTitle = aProcessInfo.WindowTitle;
     }
 }
