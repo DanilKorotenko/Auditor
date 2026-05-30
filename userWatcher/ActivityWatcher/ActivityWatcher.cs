@@ -75,8 +75,11 @@ public partial class ActivityWatcher
             {
                 result = new Activity.BrowserActivity();
             }
+            else
+            {
+                result = new Activity.AppActivity();
+            }
 
-            result = new Activity.AppActivity();
             result.SetProcessInfo(processInfo);
         }
         while (false);

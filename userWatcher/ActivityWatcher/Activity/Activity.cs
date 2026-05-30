@@ -21,8 +21,6 @@ public class Activity
     public Activity()
     {
         Timestamp = DateTime.Now;
-        ProcessName = string.Empty;
-        ProcessExePath = string.Empty;
 
         string name = Environment.UserName;
         string domain = Environment.UserDomainName;
@@ -36,18 +34,15 @@ public class Activity
         } 
     }
     public DateTime Timestamp { get; }
-    public string ProcessName { get; set; }
-    public string ProcessExePath { get; set; }
     public string UserName { get; }
 
     public override string ToString()
     {
-        return $"{Timestamp} {Type} {UserName} {ProcessName} {ProcessExePath}";
+        return $"{Timestamp} {Type} {UserName}";
     }
 
     public virtual void SetProcessInfo(ProcessInfo aProcessInfo)
     {
-        ProcessName = aProcessInfo.Name;
-        ProcessExePath = aProcessInfo.ExePath;
+
     }
 }

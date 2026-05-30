@@ -1,6 +1,6 @@
 ﻿namespace userWatcher.ActivityWatcher.Activity;
 
-public class BrowserActivity : Activity
+public class BrowserActivity : AppActivity
 {
 
     public BrowserActivity() : base()

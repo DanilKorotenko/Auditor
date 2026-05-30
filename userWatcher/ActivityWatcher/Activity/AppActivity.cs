@@ -5,6 +5,8 @@ public class AppActivity : Activity
 
     public AppActivity() : base()
     {
+        ProcessName = string.Empty;
+        ProcessExePath = string.Empty;
         WindowTitle = string.Empty;
     }
     public override ActivityType Type 
@@ -15,6 +17,8 @@ public class AppActivity : Activity
         } 
     }
 
+    public string ProcessName { get; set; }
+    public string ProcessExePath { get; set; }
     public string WindowTitle { get; set; }
 
     public override string ToString()
@@ -25,7 +29,8 @@ public class AppActivity : Activity
     public override void SetProcessInfo(ProcessInfo aProcessInfo)
     {
         base.SetProcessInfo(aProcessInfo);
-
+        ProcessName = aProcessInfo.Name;
+        ProcessExePath = aProcessInfo.ExePath;
         WindowTitle = aProcessInfo.WindowTitle;
     }
 }
