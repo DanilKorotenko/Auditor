@@ -27,7 +27,6 @@ public class Activity
         string name = Environment.UserName;
         string domain = Environment.UserDomainName;
         UserName = $"{domain}\\{name}";
-        Artifacts = [];
     }
     public virtual ActivityType Type
     { 
@@ -41,10 +40,14 @@ public class Activity
     public string ProcessExePath { get; set; }
     public string UserName { get; }
 
-    public string[] Artifacts { get; }
-
     public override string ToString()
     {
-        return $"{Timestamp} {Type} {UserName} {ProcessName} ";
+        return $"{Timestamp} {Type} {UserName} {ProcessName} {ProcessExePath}";
+    }
+
+    public virtual void SetProcessInfo(ProcessInfo aProcessInfo)
+    {
+        ProcessName = aProcessInfo.Name;
+        ProcessExePath = aProcessInfo.ExePath;
     }
 }

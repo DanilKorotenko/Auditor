@@ -55,22 +55,32 @@ public partial class ActivityWatcher
 
     public Activity.Activity GetCurrentActivity()
     {
-        if (IsAFK)
-        {
-            return new Activity.AFKActivity();
-        }
-
-        ProcessInfo? processInfo = ProcessInfo.GetCurrentProcessInfo();
-
-        if (processInfo == null)
-        {
-            return new Activity.Activity();
-        }
-
         Activity.Activity result = new Activity.Activity();
 
-        result.ProcessName = processInfo.Name;
-        result.ProcessExePath = processInfo.ExePath;
+        do
+        {
+            if (IsAFK)
+            {
+                result = new Activity.AFKActivity();
+                break;
+            }
+
+            ProcessInfo? processInfo = ProcessInfo.GetCurrentProcessInfo();
+            if (processInfo == null)
+            {
+                break;
+            }
+
+
+            if (processInfo.IsBrowser)
+            {
+                result = new Activity.BrowserActivity();
+            }
+
+            result.SetProcessInfo(processInfo);
+
+        }
+        while (false);
 
         return result;
     }
