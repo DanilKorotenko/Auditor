@@ -92,7 +92,7 @@ public class ProcessInfo
         }
     }
 
-    public string ProcessName
+    public string Name
     {
         get 
         {
@@ -100,6 +100,27 @@ public class ProcessInfo
             if (process != null)
             {
                 return process.ProcessName;
+            }
+            return string.Empty;
+        }
+    }
+
+    public string ExePath
+    {
+        get 
+        {
+            Process? process = ParentProcess;
+            if (process != null)
+            {
+                ProcessModule? module = process.MainModule;
+                if (module != null)
+                {
+                    string? exePath = module.FileName;
+                    if (exePath != null)
+                    {
+                        return exePath;
+                    }
+                }
             }
             return string.Empty;
         }

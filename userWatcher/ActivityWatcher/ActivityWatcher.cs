@@ -69,7 +69,8 @@ public partial class ActivityWatcher
 
         Activity.Activity result = new Activity.Activity();
 
-        result.ProcessName = processInfo.ProcessName;
+        result.ProcessName = processInfo.Name;
+        result.ProcessExePath = processInfo.ExePath;
 
         return result;
     }
